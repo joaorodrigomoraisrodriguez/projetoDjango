@@ -1,0 +1,194 @@
+<!-- cadastroP/templates/cadastroP/cadastro.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produto - Futurista</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Fundo com gradiente roxo sutil e efeito nebuloso */
+            background: linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Evita barras de rolagem indesejadas */
+            position: relative;
+        }
+
+        /* Efeito de fundo abstrato */
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            filter: blur(80px);
+            z-index: 0;
+        }
+
+        body::before {
+            width: 300px;
+            height: 300px;
+            background-color: #a78bfa; /* Roxo claro */
+            top: -50px;
+            left: -50px;
+        }
+
+        body::after {
+            width: 400px;
+            height: 400px;
+            background-color: #c084fc; /* Roxo mais vibrante */
+            bottom: -100px;
+            right: -100px;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10; /* Garante que o conteúdo esteja acima dos efeitos de fundo */
+            max-width: 500px;
+            width: 90%;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1); /* Fundo semi-transparente */
+            backdrop-filter: blur(10px); /* Efeito de vidro embaçado */
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Borda sutil */
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); /* Sombra mais intensa */
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #e0e7ff; /* Texto claro para contraste */
+            margin-bottom: 8px;
+            display: block;
+            text-shadow: 0 0 5px rgba(0,0,0,0.2); /* Sombra de texto sutil */
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.15); /* Fundo do input semi-transparente */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* Borda clara */
+            border-radius: 10px;
+            font-size: 1rem;
+            color: #ffffff; /* Texto do input branco */
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
+            outline: none; /* Remove o outline padrão */
+        }
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: #d1d5db; /* Cor do placeholder */
+            opacity: 0.8;
+        }
+        .form-input:focus, .form-textarea:focus {
+            border-color: #c084fc; /* Borda roxa no foco */
+            box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.4); /* Sombra roxa no foco */
+            background: rgba(255, 255, 255, 0.25); /* Fundo mais opaco no foco */
+        }
+
+        .submit-button {
+            background: linear-gradient(90deg, #8b5cf6 0%, #c084fc 100%); /* Gradiente roxo no botão */
+            color: white;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); /* Sombra para o botão */
+            border: none;
+        }
+        .submit-button:hover {
+            background: linear-gradient(90deg, #c084fc 0%, #8b5cf6 100%); /* Inverte o gradiente no hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+        }
+        .submit-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.4);
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .message.success {
+            background-color: #d1fae5; /* Verde claro */
+            color: #065f46; /* Verde escuro */
+            border: 1px solid #34d399;
+        }
+        .message.error {
+            background-color: #fee2e2; /* Vermelho claro */
+            color: #991b1b; /* Vermelho escuro */
+            border: 1px solid #ef4444;
+        }
+        .nav-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #e0e7ff; /* Texto claro */
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            text-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        .nav-link:hover {
+            color: #c084fc; /* Roxo no hover */
+            transform: translateY(-1px);
+        }
+
+        .title {
+            color: #ffffff; /* Título branco */
+            text-shadow: 0 0 10px rgba(0,0,0,0.3); /* Sombra para o título */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="container">
+        <h1 class="text-4xl font-bold title mb-10 text-center">Cadastro de Produto</h1>
+
+        {% if messages %}
+            <ul class="mb-6">
+                {% for message in messages %}
+                    <li class="message {% if message.tags %} {{ message.tags }} {% endif %}">
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <div>
+                <label for="nome" class="form-label">Nome do Produto:</label>
+                <input type="text" id="nome" name="nome" required
+                       class="form-input" placeholder="Ex: Cyber-Óculos X-2000"
+                       value="{{ request.POST.nome }}">
+            </div>
+
+            <div>
+                <label for="preco" class="form-label">Preço:</label>
+                <input type="number" id="preco" name="preco" step="0.01" required
+                       class="form-input" placeholder="Ex: 199.99"
+                       value="{{ request.POST.preco }}">
+            </div>
+
+            <div>
+                <label for="descricao" class="form-label">Descrição:</label>
+                <textarea id="descricao" name="descricao" rows="4"
+                          class="form-textarea" placeholder="Tecnologia de ponta para imersão total na realidade virtual..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-button w-full">Cadastrar Produto</button>
+        </form>
+
+        <div class="text-center mt-8">
+            <a href="{% url 'listar_produtos' %}" class="nav-link">Ver todos os produtos</a>
+        </div>
+    </div>
+</body>
+</html>
